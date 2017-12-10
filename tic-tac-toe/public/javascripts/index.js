@@ -72,11 +72,18 @@ $(function() {
 					CurrentGame.endGame();
 				}
 			}
+		},
+		checkForFill: function() {
+			let flattenedBoard = [].concat.apply([], CurrentGame.gameState.gameBoard);
+			if (CurrentGame.active && !flattenedBoard.includes(0)) {
+				alert("cats game");
+				CurrentGame.endGame();
+			}
 		}
 	}
 
 	$(".cell").on("click", function() {
-		if ($(this).attr("class").includes("0") && CurrentGame.active === true) {
+		if ($(this).attr("class").includes("0") && CurrentGame.active) {
 			let yPosition = $(this).attr("id").slice(0,1);
 			let xPosition = $(this).attr("id").slice(2);
 			CurrentGame.updateBoard(xPosition, yPosition);
@@ -85,6 +92,7 @@ $(function() {
 			GameLogic.checkRows();
 			GameLogic.checkColumns();
 			GameLogic.checkDiagonals();
+			GameLogic.checkForFill();
 		}
 	});
 	$("#new-game-button").on("click", function() {
