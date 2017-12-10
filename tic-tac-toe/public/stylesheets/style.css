@@ -1,0 +1,15 @@
+#game-board {
+	width: 600px;
+	height: 600px;
+}
+.cell {
+	width: 200px;
+	height: 200px;
+	border: 1px solid #000000;
+	display: inline-block;
+}
+.row {
+	height: 200px;
+	width: 600px;
+	display: flex;
+}
