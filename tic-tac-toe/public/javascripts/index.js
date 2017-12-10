@@ -1,18 +1,25 @@
 $(function() {
 
-	function GameState() {
-		this.gameBoard = [[0,0,0],[0,0,0],[0,0,0]];
-		this.currentTurn = Number;
+	function GameState(gameBoard, player) {
+		this.gameBoard = gameBoard;
+		this.currentTurn = player;
 	}
 
 	const CurrentGame = {
-		gameState: [[0,0,0],[0,0,0],[0,0,0]],
+		gameState: new GameState([[0,0,0],[0,0,0],[0,0,0]], 1),
 		previousStates: []
 	}
 
 	const ViewControl = {
 		updateView: function() {
-
+			$(".cell").removeClass("player-1");
+			$(".cell").removeClass("player-2");
+			$(".cell").removeClass("player-0");
+			CurrentGame.gameState.gameBoard.forEach(function(row, index1) {
+				row.forEach(function(cell, index2) {
+					$(`#${index1}-${index2}`).addClass(`player-${cell}`);
+				});
+			});
 		}
 	}
 
@@ -27,5 +34,4 @@ $(function() {
 
 		}
 	}
-
 });

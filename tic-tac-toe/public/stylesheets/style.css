@@ -7,9 +7,20 @@
 	height: 200px;
 	border: 1px solid #000000;
 	display: inline-block;
+	background-size: contain;
+	background-position: center;
 }
 .row {
 	height: 200px;
 	width: 600px;
 	display: flex;
+}
+.player-0 {
+	background-image: none;
+}
+.player-1 {
+	background-image: url("/images/ttt_x.png");
+}
+.player-2 {
+	background-image: url("/images/ttt_o.png");
 }
