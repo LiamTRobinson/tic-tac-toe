@@ -1,13 +1,11 @@
 $(function() {
 
-	function GameState(gameBoard, player, startingPlayer) {
-		this.gameBoard = gameBoard;
-		this.currentTurn = player;
-		this.startingPlayer = startingPlayer;
-	}
-
 	const CurrentGame = {
-		gameState: new GameState([[0,0,0],[0,0,0],[0,0,0]], 1, 1),
+		gameState: {
+			gameBoard: [[0,0,0],[0,0,0],[0,0,0]],
+			startingPlayer: 1,
+			currentTurn: 1
+		},
 		active: false,
 		previousStates: [],
 		updateBoard: function(xPosition, yPosition) {
@@ -22,15 +20,24 @@ $(function() {
 			}
 		},
 		newGame: function() {
-			this.gameState = new GameState([[0,0,0],[0,0,0],[0,0,0]], 1, 1);
+			this.gameState = {
+				gameBoard: [[0,0,0],[0,0,0],[0,0,0]],
+				startingPlayer: 1,
+				currentTurn: 1
+			};
 			this.active = true;
-			console.log(this.active);
 			this.previousStates = [];
 		},
 		endGame: function() {
 			this.active = false;
+		},
+		storeState: function() {
+			this.previousStates.push($.extend(true, {}, this.gameState));
+		},
+		undo: function() {
+			this.gameState = this.previousStates.pop();
 		}
-	}
+	};
 
 	const SavedGames = [];
 
@@ -45,7 +52,7 @@ $(function() {
 				});
 			});
 		}
-	}
+	};
 
 	const GameLogic = {
 		checkRows: function() {
@@ -80,12 +87,13 @@ $(function() {
 				CurrentGame.endGame();
 			}
 		}
-	}
+	};
 
 	$(".cell").on("click", function() {
 		if ($(this).attr("class").includes("0") && CurrentGame.active) {
 			let yPosition = $(this).attr("id").slice(0,1);
 			let xPosition = $(this).attr("id").slice(2);
+			CurrentGame.storeState();
 			CurrentGame.updateBoard(xPosition, yPosition);
 			CurrentGame.updatePlayer();
 			ViewControl.updateCells();
@@ -98,5 +106,11 @@ $(function() {
 	$("#new-game-button").on("click", function() {
 		CurrentGame.newGame();
 		ViewControl.updateCells();
+	});
+	$("#undo-button").on("click", function() {
+		if (CurrentGame.active && CurrentGame.previousStates.length > 0) {
+			CurrentGame.undo();
+			ViewControl.updateCells();
+		}
 	});
 });
