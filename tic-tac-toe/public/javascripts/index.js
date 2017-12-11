@@ -51,6 +51,14 @@ $(function() {
 					$(`#${index1}-${index2}`).addClass(`player-${cell}`);
 				});
 			});
+		},
+		updateCurrentPlayer: function() {
+			if (CurrentGame.gameState.currentTurn === 1) {
+				$("#current-player").html("X");
+			}
+			if (CurrentGame.gameState.currentTurn === 2) {
+				$("#current-player").html("O");
+			}
 		}
 	};
 
@@ -97,6 +105,7 @@ $(function() {
 			CurrentGame.updateBoard(xPosition, yPosition);
 			CurrentGame.updatePlayer();
 			ViewControl.updateCells();
+			ViewControl.updateCurrentPlayer();
 			GameLogic.checkRows();
 			GameLogic.checkColumns();
 			GameLogic.checkDiagonals();
@@ -106,11 +115,13 @@ $(function() {
 	$("#new-game-button").on("click", function() {
 		CurrentGame.newGame();
 		ViewControl.updateCells();
+		ViewControl.updateCurrentPlayer();
 	});
 	$("#undo-button").on("click", function() {
 		if (CurrentGame.active && CurrentGame.previousStates.length > 0) {
 			CurrentGame.undo();
 			ViewControl.updateCells();
+			ViewControl.updateCurrentPlayer();
 		}
 	});
 });

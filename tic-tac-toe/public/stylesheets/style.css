@@ -24,12 +24,18 @@ p {
 	margin: 40px auto 80px auto;
 }
 
-/*------GAME OPTIONS------*/
-#game-options-container {
+/*------GAME HEADER------*/
+#game-header {
 	max-width: 500px;
 	margin: 0 auto;
 	display: flex;
 	justify-content: space-around;
+}
+h3 {
+	font-size: 2em;
+}
+#current-player {
+	color: #e04831;
 }
 
 /*------GAME BOARD------*/
