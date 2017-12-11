@@ -21,7 +21,6 @@ $(function() {
 		},
 		newGame: function() {
 			let startingPlayer = function() {
-				console.log(SavedGames);
 				if (SavedGames.length > 0 && SavedGames[SavedGames.length - 1][0].startingPlayer === "X") {
 					return "O";
 				} else {
