@@ -3,8 +3,8 @@ $(function() {
 	const CurrentGame = {
 		gameState: {
 			gameBoard: [[0,0,0],[0,0,0],[0,0,0]],
-			startingPlayer: 1,
-			currentTurn: 1
+			startingPlayer: "X",
+			currentTurn: "X"
 		},
 		active: false,
 		previousStates: [],
@@ -12,18 +12,18 @@ $(function() {
 			this.gameState.gameBoard[yPosition][xPosition] = this.gameState.currentTurn;
 		},
 		updatePlayer: function() {
-			if (this.gameState.currentTurn === 1) {
-				this.gameState.currentTurn = 2;
+			if (this.gameState.currentTurn === "X") {
+				this.gameState.currentTurn = "O";
 			}
 			else {
-				this.gameState.currentTurn = 1;
+				this.gameState.currentTurn = "X";
 			}
 		},
 		newGame: function() {
 			this.gameState = {
 				gameBoard: [[0,0,0],[0,0,0],[0,0,0]],
-				startingPlayer: 1,
-				currentTurn: 1
+				startingPlayer: "X",
+				currentTurn: "X"
 			};
 			this.active = true;
 			this.previousStates = [];
@@ -43,8 +43,8 @@ $(function() {
 
 	const ViewControl = {
 		updateCells: function() {
-			$(".cell").removeClass("player-1");
-			$(".cell").removeClass("player-2");
+			$(".cell").removeClass("player-X");
+			$(".cell").removeClass("player-O");
 			$(".cell").removeClass("player-0");
 			CurrentGame.gameState.gameBoard.forEach(function(row, index1) {
 				row.forEach(function(cell, index2) {
@@ -53,11 +53,15 @@ $(function() {
 			});
 		},
 		updateCurrentPlayer: function() {
-			if (CurrentGame.gameState.currentTurn === 1) {
-				$("#current-player").html("X");
-			}
-			if (CurrentGame.gameState.currentTurn === 2) {
-				$("#current-player").html("O");
+			$("#current-player").html(CurrentGame.gameState.currentTurn);
+		},
+		toggleModal: function(message) {
+			let modal = $("#game-end-modal");
+			if (modal.attr("class") === "active") {
+				modal.removeClass("active");
+			} else {
+				modal.addClass("active");
+				$("#modal-content").html(message);
 			}
 		}
 	};
@@ -66,16 +70,16 @@ $(function() {
 		checkRows: function() {
 			CurrentGame.gameState.gameBoard.forEach(function(row) {
 				if (row[0] !== 0 && row[0] === row[1] && row[0] === row[2]) {
-					alert("winner row");
 					CurrentGame.endGame();
+					ViewControl.toggleModal(`${CurrentGame.gameState.currentTurn} WINS!`);
 				}
 			});
 		},
 		checkColumns: function() {
 			CurrentGame.gameState.gameBoard[0].forEach(function(cell, index) {
 				if (cell !== 0 && CurrentGame.gameState.gameBoard[1][index] === cell && CurrentGame.gameState.gameBoard[2][index] === cell) {
-					alert("winner column");
 					CurrentGame.endGame();
+					ViewControl.toggleModal(`${CurrentGame.gameState.currentTurn} WINS!`);
 				}
 			});
 		},
@@ -83,16 +87,16 @@ $(function() {
 			let gameBoard = CurrentGame.gameState.gameBoard
 			if (gameBoard[1][1] !== 0) {
 				if ((gameBoard[1][1] === gameBoard[0][0] && gameBoard[1][1] === gameBoard[2][2]) || (gameBoard[1][1] === gameBoard[0][2] && gameBoard[1][1] === gameBoard[2][0])) {
-					alert("winner diagonal");
 					CurrentGame.endGame();
+					ViewControl.toggleModal(`${CurrentGame.gameState.currentTurn} WINS!`);
 				}
 			}
 		},
 		checkForFill: function() {
 			let flattenedBoard = [].concat.apply([], CurrentGame.gameState.gameBoard);
 			if (CurrentGame.active && !flattenedBoard.includes(0)) {
-				alert("cats game");
 				CurrentGame.endGame();
+				ViewControl.toggleModal("Cat's Game!");
 			}
 		}
 	};
@@ -103,13 +107,13 @@ $(function() {
 			let xPosition = $(this).attr("id").slice(2);
 			CurrentGame.storeState();
 			CurrentGame.updateBoard(xPosition, yPosition);
-			CurrentGame.updatePlayer();
 			ViewControl.updateCells();
 			ViewControl.updateCurrentPlayer();
 			GameLogic.checkRows();
 			GameLogic.checkColumns();
 			GameLogic.checkDiagonals();
 			GameLogic.checkForFill();
+			CurrentGame.updatePlayer();
 		}
 	});
 	$("#new-game-button").on("click", function() {
@@ -123,5 +127,8 @@ $(function() {
 			ViewControl.updateCells();
 			ViewControl.updateCurrentPlayer();
 		}
+	});
+	$("#modal-button").on("click", function() {
+		ViewControl.toggleModal();
 	});
 });

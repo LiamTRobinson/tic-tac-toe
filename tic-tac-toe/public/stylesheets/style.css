@@ -2,6 +2,19 @@
 body {
 	background-color: #dee4ef;
 }
+button {
+	height: 50px;
+	width: 100px;
+	background-color: #36425b;
+	color: #ffffff;
+}
+button:hover {
+	background-color: transparent;
+	color: #000000;
+	border: 1px solid #000000;
+	cursor: pointer;
+	transition: all .3s;
+}
 
 /*------HEADER------*/
 h1 {
@@ -30,6 +43,7 @@ p {
 	margin: 0 auto;
 	display: flex;
 	justify-content: space-around;
+	min-height: 125px;
 }
 h3 {
 	font-size: 2em;
@@ -42,7 +56,7 @@ h3 {
 #game-board {
 	width: 600px;
 	height: 600px;
-	margin: 60px auto;
+	margin: 0px auto 60px auto;
 }
 .cell {
 	width: 200px;
@@ -60,9 +74,39 @@ h3 {
 .player-0 {
 	background-image: none;
 }
-.player-1 {
+.player-X {
 	background-image: url("/images/ttt_x.png");
 }
-.player-2 {
+.player-O {
 	background-image: url("/images/ttt_o.png");
 }
+
+/*------MODAL------*/
+#game-end-modal {
+	display: none;
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	left: 0;
+	top: 0;
+	background-color: rgba(0,0,0,0.7);
+}
+#game-end-modal.active {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#modal-content-container {
+	height: 500px;
+	width: 500px;
+	background-color: #36425b;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+}
+#modal-button:hover {
+	background-color: #ffffff;
+	border: 0px;
+}
+
