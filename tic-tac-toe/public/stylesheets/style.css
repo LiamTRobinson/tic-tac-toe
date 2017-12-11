@@ -47,6 +47,7 @@ p {
 }
 h3 {
 	font-size: 2em;
+	text-align: center;
 }
 #current-player {
 	color: #e04831;
@@ -110,3 +111,15 @@ h3 {
 	border: 0px;
 }
 
+/*------GAME FOOTER------*/
+#game-footer {
+	min-height: 170px;
+}
+#replays-container {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+}
+.replay-button {
+	margin-top: 20px;
+}
