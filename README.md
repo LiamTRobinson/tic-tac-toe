@@ -1,3 +1,5 @@
+
+
 # Tic-Tac-Toe
 
 This is an entirely front-end Tic-Tac-Toe game. It includes the basic game logic as well as the ability to undo moves and watch replays of previous games.
@@ -23,6 +25,4 @@ Clone the repo and run "npm install" in the terminal. Once you have installed ev
 ## Author
 
 Liam Robinson
-
-## Deployed Site
 
